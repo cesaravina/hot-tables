@@ -80,9 +80,11 @@
                     var tempDiv = $("<div>");
                     for (var prop in value)
                     {
+                        if(prop!='wait'){
                         var temp = $("<p>");
                         temp.text(prop + ": " + value[prop]);
                         tempDiv.append(temp);
+                    }
                     }
                     tempDiv.append("<hr>");
                     $(appendToDiv).append(tempDiv);

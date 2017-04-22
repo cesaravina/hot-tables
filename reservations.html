@@ -1,3 +1,91 @@
-<!-- reservations.html -->
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
- ┻━┻
+        <meta charset="UTF-8">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>The Hottest Restaurant</title>
+    </head>
+    <body>
+        <div class = "container">
+            <div class = "jumbotron">
+                <h1>Welcome To The Hottest Restaurant</h1>
+                <hr>
+                <h2>View Reservations or Make a Reservation</h2>
+                <a href = "/"><button class="btn btn-lg btn-primary" type="button">Home</button></a>
+                <a href = "/tables"><button class= "btn btn-lg btn-danger" type ="button">Look at reservations</button></a>
+            </div>
+            <div class= "panel panel-default">
+                <div class = "panel-heading">
+                    <h4 class = "panel-title">Make Reservation</h4>
+                </div>
+                <div id="table-list" class="panel-body">
+                    <div class="form-group">
+                        <label for="">Name</label>
+                        <input class="form-control" id="reserve_name" type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Phone Number</label>
+                        <input class="form-control" id="reserve_phone" type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Email</label>
+                        <input class="form-control" id="reserve_email" type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Unique ID</label>
+                        <input class="form-control" id="reserve_uniqueID" type="text">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary submit" id = "submit-reservation">Submit</button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <a href = "/api/get-tables">view table data</a>
+            |
+            <a href = "/api/get-waitlist">view waitlist data</a>
+        </footer>
+       <script type="text/javascript">
+        var currentURL = window.location.origin;
+            
+            $(document).ready(function()
+            {
+                $(".submit").on("click", function(event)
+                {
+                    event.preventDefault();
+                    var toSend = {
+                        name: $("#reserve_name").val().trim(),
+                        phone: $("#reserve_phone").val().trim(),
+                        email: $("#reserve_email").val().trim(),
+                        id: $("#reserve_uniqueID").val().trim()
+                    }
+
+                    $.post(currentURL+"/api/make-reservation", toSend,function(data)
+                        {
+                            console.log(data);
+                            if(data.wait === true){
+                                alert('You got a table!')
+                            }else{
+                                alert('Waiting list!')
+                            }
+                            $("#reserve_name").val("");
+                            $("#reserve_phone").val("");
+                            $("#reserve_email").val("");
+                            $("#reserve_uniqueID").val("");
+                        });
+                });
+
+            });
+
+        </script>
+    </body>
+</html>
