@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <meta charset="UTF-8">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>The Hottest Restaurant</title>
+    </head>
+    <body>
+        <div class = "container">
+            <div class = "jumbotron">
+                <h1>Welcome To The Hottest Restaurant</h1>
+                <hr>
+                <h2>View Reservations or Make a Reservation</h2>
+                <a href = "/tables"><button class="btn btn-lg btn-primary" type="button">View Tables</button></a>
+                <a href = "/reservations"><button class= "btn btn-lg btn-danger" type ="button">Make a Reservation</button></a>
+            </div>
+        </div>
+       <script type="text/javascript">
+            $("#btn-tables").on("click", function() {
+            $.get("/api/tables", function(data) {
+                console.log(data);
+                if (data) {
+                data.forEach(function(value)
+                {
+                    var tempDiv = $("<div>");
+                    for (var prop in value)
+                    {
+                        var temp = $("<p>");
+                        temp.text(prop + ": " + value[prop]);
+                        tempDiv.append(temp);
+                    }
+                    $("#table-list").append(tempDiv);
+                });
+                }
+                else {
+                $("#name").text("The force is not strong with this one. Your table was not found.");
+                $("#stats").hide();
+                }
+            });
+            });
+        </script>
+    </body>
+</html>
